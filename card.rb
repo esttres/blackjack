@@ -1,4 +1,4 @@
-
+#removed a couple things in the initialize method, cleaned it up a bit
 
 class Card
 
@@ -6,12 +6,10 @@ class Card
                 :value,
                 :face
 
-  def initialize (suit = "hearts", value = 2, face = nil)
+  def initialize (suit, value, face)
     @suit = suit
     @value = value
     @face = face
   end
-
-
 
 end
