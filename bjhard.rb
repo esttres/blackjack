@@ -1,6 +1,6 @@
 
-require_relative 'playerhardgit'
-require_relative 'deckgit'
+require_relative 'playerhard'
+require_relative 'deck'
 
 class Game
 
