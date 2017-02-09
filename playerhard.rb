@@ -19,7 +19,7 @@ class Player
   def hit(deck, current_dealer_hand)
     hand << deck.shift
     puts
-    puts "#{name}, your hand is now,"
+    puts "#{player.name}, your hand is now,"
     puts
 
     hand.each do |hand_elements|

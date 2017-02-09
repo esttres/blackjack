@@ -1,6 +1,6 @@
 require_relative 'deck'
 require 'test/unit'
 
-class TestDeck
+class TestDeck < Test::Unit::TestCase
     
 end

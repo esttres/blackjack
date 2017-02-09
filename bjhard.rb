@@ -161,16 +161,16 @@ class Game
     puts
 
       case playanswer
-      when "n"
-        puts "Have a nice day!"
-        exit
-      when "y"
-        puts "Let's Play\n"
-        puts
-        Game.new.play
-      else
-        puts "Have a nice day!"
-        play_again
+        when "n"
+          puts "Have a nice day!"
+          exit
+        when "y"
+          puts "Let's Play\n"
+          puts
+          Game.new.play
+        else
+          puts "Have a nice day!"
+          play_again
       end
 
   end
@@ -217,8 +217,6 @@ class Game
     player_check_for_bust
     check_for_blackjack_player
     player_move
-
-
 
   end
 

@@ -1,7 +1,7 @@
 require_relative 'card'
 require 'test/unit'
 
-class TestCard
-    
+class TestCard < Test::Unit::TestCase
+
 end
 
