@@ -22,11 +22,17 @@ class Deck
       @deckk << Card.new(suit, 11, "A")
 
     end
+    
     shuffle!
+
   end
 
   def shuffle!
-    deckk.shuffle!
+    @deckk.shuffle!
+  end
+
+  def length_is
+    @deckk.length
   end
 
 
@@ -37,6 +43,8 @@ end
 
 # puts deck.deckk.inspect
 #
+# puts
+
 # puts deck.deckk.shuffle!.inspect
 #
 # puts deck.deckk.length

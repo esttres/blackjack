@@ -4,6 +4,8 @@ require_relative 'deck'
 
 class Game
 
+  @@number_of_games_played = 0
+
   attr_accessor :bjdeck,
                 :player,
                 :dealer
@@ -19,7 +21,21 @@ class Game
 
   def play_again
 
-    exit
+    puts "Do you want to play another game of BlackJack? (y or n)"
+    playanswer = gets.chomp.downcase
+    puts
+
+      case playanswer
+        when "n"
+          puts "Have a nice day!"
+          exit
+        when "y"
+          puts "Let's Play\n"
+          play
+        else
+          puts "Have a nice day!"
+          exit
+      end
 
   end
 
@@ -70,13 +86,13 @@ class Game
   def player_move
 
     puts
-    puts "Do you want to Hit, or Stay, h or s\n"
+    puts "Do you want to Hit, or Stay (h or s)\n"
     player_move_input = gets.chomp.downcase
 
     case player_move_input
       when "h"
 
-        player.hit(bjdeck.deckk,dealer.hand)
+        player.hit(bjdeck.deckk,dealer.hand,player.name)
 
       when "s"
 
@@ -84,7 +100,7 @@ class Game
 
       else
         puts
-        puts "Please enter a valid entry, h or s!\n"
+        puts "Please enter a valid entry (h or s)!\n"
         puts
         player_move
     end
@@ -157,7 +173,7 @@ class Game
   def self.first_Dialog
 
     puts "Do you want to play BlackJack? (y or n)"
-    playanswer = gets.chomp
+    playanswer = gets.chomp.downcase
     puts
 
       case playanswer
@@ -170,7 +186,7 @@ class Game
           Game.new.play
         else
           puts "Have a nice day!"
-          play_again
+          exit
       end
 
   end
@@ -188,6 +204,8 @@ class Game
   end
 
   def deal
+
+    puts "This is your #{@@number_of_games_played}th game played"
 
     player.hand = [bjdeck.deckk.shift]
     dealer.hand = [bjdeck.deckk.shift]
@@ -209,15 +227,27 @@ class Game
 
   def play
 
-    puts "What is your name?\n"
-    player.name = gets.chomp.capitalize!
-
+    if @@number_of_games_played == 0
+      ask_name
+    end
+    iterate_games
     deal
     check_for_blackjack_dealer
     player_check_for_bust
     check_for_blackjack_player
     player_move
 
+  end
+
+  def ask_name
+
+    puts "What is your name?\n"
+    player.name = gets.chomp.capitalize!
+  
+  end
+
+  def iterate_games
+    @@number_of_games_played += 1
   end
 
 

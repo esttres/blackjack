@@ -18,10 +18,10 @@ class Player
 
   end
 
-  def hit(deck, current_dealer_hand)
+  def hit(deck, current_dealer_hand, player_name)
     hand << deck.shift
     puts
-    puts "#{player.name}, your hand is now,"
+    puts "#{player_name}, your hand is now,"
     puts
 
     hand.each do |hand_elements|
