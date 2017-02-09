@@ -21,6 +21,7 @@ class Player
     puts
     puts "#{name}, your hand is now,"
     puts
+
     hand.each do |hand_elements|
       print hand_elements.face
       print " of "
@@ -28,6 +29,7 @@ class Player
       puts
 
     end
+    
     puts
     puts "Your total is #{player_score}"
 

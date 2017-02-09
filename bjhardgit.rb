@@ -1,6 +1,6 @@
 
-require_relative 'playerhard'
-require_relative 'deck'
+require_relative 'playerhardgit'
+require_relative 'deckgit'
 
 class Game
 
@@ -74,19 +74,19 @@ class Game
     player_move_input = gets.chomp.downcase
 
     case player_move_input
-    when "h"
+      when "h"
 
-      player.hit(bjdeck.deckk,dealer.hand)
+        player.hit(bjdeck.deckk,dealer.hand)
 
-    when "s"
+      when "s"
 
-      dealer_move
+        dealer_move
 
-    else
-      puts
-      puts "Please enter a valid entry, h or s!\n"
-      puts
-      player_move
+      else
+        puts
+        puts "Please enter a valid entry, h or s!\n"
+        puts
+        player_move
     end
 
     player_check_for_bust

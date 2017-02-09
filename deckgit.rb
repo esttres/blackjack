@@ -1,6 +1,6 @@
 
 
-require_relative 'card'
+require_relative 'cardgit'
 
 class Deck
 
