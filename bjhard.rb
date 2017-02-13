@@ -21,6 +21,9 @@ class Game
 
   def play_again
 
+    # Inserted for automatic play
+    play_again_auto
+
     puts "Do you want to play another game of BlackJack? (y or n)"
     playanswer = gets.chomp.downcase
     puts
@@ -36,6 +39,28 @@ class Game
           puts "Have a nice day!"
           exit
       end
+
+  end
+
+  def play_again_auto
+
+    puts "Do you want to play another game of BlackJack? (y or n)"
+
+    until @@number_of_games_played == 10
+     
+      playanswer = "y"
+      puts
+
+      case playanswer
+        when "n"
+          puts "Have a nice day!"
+          exit
+        when "y"
+          puts "Let's Play\n"
+          play
+      end
+
+    end
 
   end
 
@@ -67,7 +92,7 @@ class Game
 
     if player_score > 21
       puts
-      puts "You have busted!"
+      puts "You LOST, You have busted!"
       @player.number_of_losses += 1 
       puts
       play_again
@@ -79,7 +104,7 @@ class Game
 
     if dealer_score > 21
       puts
-      puts "Dealer has busted!"
+      puts "You WIN, Dealer has busted!"
       @player.number_of_wins += 1 
       puts
       play_again
@@ -89,14 +114,52 @@ class Game
 
   def player_move
 
+    # Inserted for Autoplay
+    player_move_auto
+
     puts
     puts "Do you want to Hit, or Stay (h or s)\n"
     player_move_input = gets.chomp.downcase
 
     case player_move_input
       when "h"
+        check_number_of_cards_in_deck
+        @player.hit(@bjdeck.deckk,@dealer.hand)
 
-        @player.hit(@bjdeck.deckk,@dealer.hand,@player.name)
+      when "s"
+
+        dealer_move
+
+      else
+        puts
+        puts "Please enter a valid entry (h or s)!\n"
+        puts
+        player_move
+    end
+
+    player_check_for_bust
+    player_move
+
+  end
+
+  def player_move_auto
+
+    puts
+    puts "Do you want to Hit, or Stay (h or s)\n"
+
+    if player_score <=16
+      player_move_input = "h"
+      puts "h"    
+    else
+      player_move_input = "s"
+      puts "s"
+    end
+
+    case player_move_input
+      when "h"
+
+        check_number_of_cards_in_deck
+        @player.hit(@bjdeck.deckk,@dealer.hand)
 
       when "s"
 
@@ -166,11 +229,10 @@ class Game
     puts "Dealer hand is "
     puts
 
-    @dealer.hand.each do |hand_elements|
-      print hand_elements.face
-      print " of "
-      print "#{hand_elements.suit},"
-      puts
+    @dealer.hand.each do |card|
+
+      puts "#{card.face} of #{card.suit},"
+
     end
 
     dealer_check_for_bust
@@ -214,6 +276,20 @@ class Game
 
   def check_for_aces
 
+    @player.hand.each do |card|
+      if card.face == "A"
+        puts "You have an Ace, do you want it to have value 1 or 11"
+        card.value = gets.to_i
+        puts "you have selected, #{card.value}"
+      end
+    end
+
+  end
+
+  def number_of_cards_in_deck
+
+    puts "There are #{bjdeck.deckk.length} cards left in the deck"
+
   end
 
   def deal
@@ -228,7 +304,9 @@ class Game
     @player.hand << @bjdeck.deckk.shift
     @dealer.hand << @bjdeck.deckk.shift
 
-    check_for_aces(@player, @dealer)
+    number_of_cards_in_deck
+
+    check_for_aces
 
     puts
     puts "#{@player.name}, You have"
@@ -249,12 +327,21 @@ class Game
       ask_name
     end
     iterate_games
+    check_number_of_cards_in_deck
     deal
     check_for_blackjack_player
     check_for_blackjack_dealer
     player_check_for_bust
-    check_for_blackjack_player
     player_move
+
+  end
+
+  def check_number_of_cards_in_deck
+
+    if bjdeck.deckk.length < 4
+      puts "the deck needs to be shuffled!"
+      @bjdeck = Deck.new
+    end
 
   end
 
@@ -262,6 +349,7 @@ class Game
 
     puts "What is your name?\n"
     @player.name = gets.chomp.capitalize!
+    puts
   
   end
 

@@ -6,42 +6,40 @@ class Player
 
   attr_accessor :name,
                 :hand,
-                :deck,
-                :current_dealer_hand,
                 :number_of_wins,
                 :number_of_losses
 
-  def initialize (name = "noname", hand = [])
+  def initialize (name = "noname", 
+                  hand = [],
+                  number_of_wins = 0,
+                  number_of_losses = 0)
 
     @name = name
     @hand = hand
-    @deck = deck
-    @current_dealer_hand = current_dealer_hand
-    @number_of_wins = 0
-    @number_of_losses = 0
+    @number_of_wins = number_of_wins
+    @number_of_losses = number_of_losses
 
   end
 
-  def hit(deck, current_dealer_hand, player_name)
-    hand << deck.shift
+  def hit(deck, current_dealer_hand)
+    @hand << deck.shift
     puts
-    puts "#{player_name}, your hand is now,"
+    puts "#{@name}, your hand is now,"
     puts
 
-    hand.each do |hand_elements|
-      print hand_elements.face
-      print " of "
-      print "#{hand_elements.suit},"
-      puts
+    @hand.each do |card|
+
+      puts "#{card.face} of #{card.suit},"
 
     end
     
     puts
     puts "Your total is #{player_score}"
 
-    if hand.length == 6 && player_score < 22
+    if @hand.length == 6 && player_score < 22
       puts "You win, you have successfully hit 4 times and you have not BUSTED!"
       play_again
+      @number_of_wins += 1 
     end
 
     puts
@@ -52,13 +50,13 @@ class Player
 
   def player_score
 
-    hand.inject(0){ |sum, hand_elements| sum + hand_elements.value }
+    @hand.inject(0){ |sum, hand_elements| sum + hand_elements.value }
 
   end
 
   def dhit(deck)
 
-    hand << deck.shift
+    @hand << deck.shift
 
   end
 end
