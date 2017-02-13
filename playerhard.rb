@@ -7,7 +7,9 @@ class Player
   attr_accessor :name,
                 :hand,
                 :deck,
-                :current_dealer_hand
+                :current_dealer_hand,
+                :number_of_wins,
+                :number_of_losses
 
   def initialize (name = "noname", hand = [])
 
@@ -15,6 +17,8 @@ class Player
     @hand = hand
     @deck = deck
     @current_dealer_hand = current_dealer_hand
+    @number_of_wins = 0
+    @number_of_losses = 0
 
   end
 
@@ -57,11 +61,4 @@ class Player
     hand << deck.shift
 
   end
-
-  def play_again
-    exit
-  end
-
-
-
 end

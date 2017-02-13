@@ -44,6 +44,7 @@ class Game
     if player_score == 21
       puts
       puts "You have BlackJack!  You have WON!"
+      @player.number_of_wins += 1 
       puts
       play_again
     end
@@ -55,6 +56,7 @@ class Game
     if dealer_score == 21
       puts
       puts "Dealer has BlackJack!  You have LOST!"
+      @player.number_of_losses += 1 
       puts
       play_again
     end
@@ -66,6 +68,7 @@ class Game
     if player_score > 21
       puts
       puts "You have busted!"
+      @player.number_of_losses += 1 
       puts
       play_again
     end
@@ -77,6 +80,7 @@ class Game
     if dealer_score > 21
       puts
       puts "Dealer has busted!"
+      @player.number_of_wins += 1 
       puts
       play_again
     end
@@ -92,7 +96,7 @@ class Game
     case player_move_input
       when "h"
 
-        player.hit(bjdeck.deckk,dealer.hand,player.name)
+        @player.hit(@bjdeck.deckk,@dealer.hand,@player.name)
 
       when "s"
 
@@ -115,23 +119,27 @@ class Game
     if player_score < dealer_score
       puts
       puts "You LOSE, the Dealer had #{dealer_score}, You had #{player_score}"
+      @player.number_of_losses += 1 
       puts
       play_again
     elsif player_score == dealer_score
 
-      if player.hand.length > dealer.hand.length
+      if @player.hand.length > @dealer.hand.length
         puts
         puts "You WIN, you tied the dealer and you have more cards!"
+        @player.number_of_wins += 1 
         puts
         play_again
-      elsif player.hand.length < dealer.hand.length
+      elsif @player.hand.length < @dealer.hand.length
         puts
         puts "You LOSE, you tied the dealer and you have more cards!"
+        @player.number_of_losses += 1 
         puts
         play_again
       else
         puts
         puts "You WIN, you tied the dealer and you have the same number of cards!"
+        @player.number_of_wins += 1 
         puts
         play_again
       end
@@ -139,6 +147,7 @@ class Game
     else
       puts
       puts "You WIN, the Dealer had #{dealer_score}, You had #{player_score}"
+      @player.number_of_wins += 1 
       puts
       play_again
     end
@@ -149,7 +158,7 @@ class Game
 
     until dealer_score >= 16
 
-      dealer.dhit(bjdeck.deckk)
+      @dealer.dhit(@bjdeck.deckk)
 
     end
 
@@ -157,7 +166,7 @@ class Game
     puts "Dealer hand is "
     puts
 
-    dealer.hand.each do |hand_elements|
+    @dealer.hand.each do |hand_elements|
       print hand_elements.face
       print " of "
       print "#{hand_elements.suit},"
@@ -193,34 +202,43 @@ class Game
 
   def player_score
 
-    player.hand.inject(0){ |sum, hand_elements| sum + hand_elements.value }
+    @player.hand.inject(0){ |sum, hand_elements| sum + hand_elements.value }
 
   end
 
   def dealer_score
 
-    dealer.hand.inject(0){ |sum, hand_elements| sum + hand_elements.value }
+    @dealer.hand.inject(0){ |sum, hand_elements| sum + hand_elements.value }
+
+  end
+
+  def check_for_aces
 
   end
 
   def deal
 
     puts "This is your #{@@number_of_games_played}th game played"
+    puts "You have #{@player.number_of_wins} wins"
+    puts "You have #{@player.number_of_losses} losses"
 
-    player.hand = [bjdeck.deckk.shift]
-    dealer.hand = [bjdeck.deckk.shift]
-    player.hand << bjdeck.deckk.shift
-    dealer.hand << bjdeck.deckk.shift
+
+    @player.hand = [@bjdeck.deckk.shift]
+    @dealer.hand = [@bjdeck.deckk.shift]
+    @player.hand << @bjdeck.deckk.shift
+    @dealer.hand << @bjdeck.deckk.shift
+
+    check_for_aces(@player, @dealer)
 
     puts
-    puts "#{player.name}, You have"
+    puts "#{@player.name}, You have"
     puts
-    puts "#{player.hand[0].face} of #{player.hand[0].suit},"
-    puts "#{player.hand[1].face} of #{player.hand[1].suit}"
+    puts "#{@player.hand[0].face} of #{@player.hand[0].suit},"
+    puts "#{@player.hand[1].face} of #{@player.hand[1].suit}"
     puts
     puts "Your total is #{player_score} "
     puts
-    puts "Dealer is showing #{dealer.hand[0].face} of #{dealer.hand[0].suit}"
+    puts "Dealer is showing #{@dealer.hand[0].face} of #{@dealer.hand[0].suit}"
     puts
 
   end
@@ -232,6 +250,7 @@ class Game
     end
     iterate_games
     deal
+    check_for_blackjack_player
     check_for_blackjack_dealer
     player_check_for_bust
     check_for_blackjack_player
@@ -242,7 +261,7 @@ class Game
   def ask_name
 
     puts "What is your name?\n"
-    player.name = gets.chomp.capitalize!
+    @player.name = gets.chomp.capitalize!
   
   end
 
