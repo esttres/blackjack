@@ -1,19 +1,20 @@
 
 require_relative 'playerhard'
-require_relative 'deck'
+require_relative 'shoe'
 
 class Game
 
   @@number_of_games_played = 0
+  @@number_of_games_for_simulation = 30
 
-  attr_accessor :bjdeck,
+  attr_accessor :bjshoe,
                 :player,
                 :dealer
 
 
   def initialize
 
-    @bjdeck = Deck.new
+    @bjshoe = Shoe.new
     @player = Player.new
     @dealer = Player.new ("Dealer")
 
@@ -25,20 +26,25 @@ class Game
     play_again_auto
 
     puts "Do you want to play another game of BlackJack? (y or n)"
-    playanswer = gets.chomp.downcase
     puts
 
-      case playanswer
-        when "n"
-          puts "Have a nice day!"
-          exit
-        when "y"
-          puts "Let's Play\n"
-          play
-        else
-          puts "Have a nice day!"
-          exit
-      end
+    if @@number_of_games_played >=30
+      playanswer = "n"
+    else
+      playanswer = gets.chomp.downcase
+    end
+
+    case playanswer
+      when "n"
+        puts "Have a nice day!"
+        exit
+      when "y"
+        puts "Let's Play\n"
+        play
+      else
+        puts "Have a nice day!"
+        exit
+    end
 
   end
 
@@ -46,7 +52,7 @@ class Game
 
     puts "Do you want to play another game of BlackJack? (y or n)"
 
-    until @@number_of_games_played == 10
+    until @@number_of_games_played == @@number_of_games_for_simulation
      
       playanswer = "y"
       puts
@@ -123,8 +129,8 @@ class Game
 
     case player_move_input
       when "h"
-        check_number_of_cards_in_deck
-        @player.hit(@bjdeck.deckk,@dealer.hand)
+        check_number_of_cards_in_shoe
+        @player.hit(@bjshoe.shoe,@dealer.hand)
 
       when "s"
 
@@ -158,8 +164,8 @@ class Game
     case player_move_input
       when "h"
 
-        check_number_of_cards_in_deck
-        @player.hit(@bjdeck.deckk,@dealer.hand)
+        check_number_of_cards_in_shoe
+        @player.hit(@bjshoe.shoe,@dealer.hand)
 
       when "s"
 
@@ -221,7 +227,7 @@ class Game
 
     until dealer_score >= 16
 
-      @dealer.dhit(@bjdeck.deckk)
+      @dealer.dhit(@bjshoe.shoe)
 
     end
 
@@ -286,9 +292,9 @@ class Game
 
   end
 
-  def number_of_cards_in_deck
+  def number_of_cards_in_shoe
 
-    puts "There are #{bjdeck.deckk.length} cards left in the deck"
+    puts "There are #{bjshoe.shoe.length} cards left in the shoe"
 
   end
 
@@ -299,12 +305,12 @@ class Game
     puts "You have #{@player.number_of_losses} losses"
 
 
-    @player.hand = [@bjdeck.deckk.shift]
-    @dealer.hand = [@bjdeck.deckk.shift]
-    @player.hand << @bjdeck.deckk.shift
-    @dealer.hand << @bjdeck.deckk.shift
+    @player.hand = [@bjshoe.shoe.shift]
+    @dealer.hand = [@bjshoe.shoe.shift]
+    @player.hand << @bjshoe.shoe.shift
+    @dealer.hand << @bjshoe.shoe.shift
 
-    number_of_cards_in_deck
+    number_of_cards_in_shoe
 
     check_for_aces
 
@@ -327,7 +333,7 @@ class Game
       ask_name
     end
     iterate_games
-    check_number_of_cards_in_deck
+    check_number_of_cards_in_shoe
     deal
     check_for_blackjack_player
     check_for_blackjack_dealer
@@ -336,11 +342,11 @@ class Game
 
   end
 
-  def check_number_of_cards_in_deck
+  def check_number_of_cards_in_shoe
 
-    if bjdeck.deckk.length < 4
-      puts "the deck needs to be shuffled!"
-      @bjdeck = Deck.new
+    if @bjshoe.shoe.length < 4
+      puts "the shoe needs to be shuffled!"
+      @bjshoe = Shoe.new
     end
 
   end

@@ -9,8 +9,8 @@ class Shoe
         @shoe = []
 
         7.times do
-            tempdeck = Deck.new
-            tempdeck.deck.each do |card|
+            singledeck = Deck.new
+            singledeck.deck.each do |card|
                 @shoe << card
             end
         end
@@ -21,12 +21,12 @@ class Shoe
 
 end
 
-shoe = Shoe.new
+# shoe = Shoe.new
 
-puts shoe.shoe.inspect
+# puts shoe.shoe.inspect
 
-puts
+# puts
 
-puts shoe.shoe.shuffle!.inspect
+# puts shoe.shoe.shuffle!.inspect
 
-puts shoe.shoe.length
+# puts shoe.shoe.length

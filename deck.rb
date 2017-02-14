@@ -1,25 +1,23 @@
-
-
 require_relative 'card'
 
 class Deck
 
-  attr_accessor :deckk
+  attr_accessor :deck
 
   def initialize
 
     suits = %w(Hearts Diamonds Clubs Spades)
     values = (2..10).to_a
-    @deckk = []
+    @deck = []
     suits.each do |suit|
       values.each do |value|
-        @deckk << Card.new(suit, value, value)
+        @deck << Card.new(suit, value, value)
       end
 
-      @deckk << Card.new(suit, 10, "J")
-      @deckk << Card.new(suit, 10, "Q")
-      @deckk << Card.new(suit, 10, "K")
-      @deckk << Card.new(suit, 11, "A")
+      @deck << Card.new(suit, 10, "J")
+      @deck << Card.new(suit, 10, "Q")
+      @deck << Card.new(suit, 10, "K")
+      @deck << Card.new(suit, 11, "A")
 
     end
     
@@ -28,11 +26,11 @@ class Deck
   end
 
   def shuffle!
-    @deckk.shuffle!
+    @deck.shuffle!
   end
 
   def length_is
-    @deckk.length
+    @deck.length
   end
 
 
@@ -41,10 +39,10 @@ end
 
 # deck = Deck.new
 
-# puts deck.deckk.inspect
-#
+# puts deck.deck.inspect
+
 # puts
 
-# puts deck.deckk.shuffle!.inspect
-#
-# puts deck.deckk.length
+# puts deck.deck.shuffle!.inspect
+
+# puts deck.deck.length
